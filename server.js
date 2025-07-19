@@ -13,7 +13,7 @@ dotenv.config();
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/', router); // Assuming API endpoints start with /api
+app.use('/', router);
 
 // Connect to database
 const userName = process.env.DB_USERNAME;

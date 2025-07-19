@@ -11,6 +11,8 @@ router.get('/attendance/:date', AttendanceController.getAttendanceForDate);
 router.post('/attendance/:date', AttendanceController.saveAttendanceForDate);
 router.post('/employees', EmployeeController.saveEmployee);
 router.get('/employees', EmployeeController.getEmployee);
+router.put('/employees/:id', EmployeeController.updateEmployee);
+router.delete('/employees/:id', EmployeeController.deleteEmployee);
 router.post('/generateSalary', SalaryController.generateSalaryForMonth); 
 router.post('/upad', UpadController.saveUpad); // Route to save Upad data
 router.get('/all-employees-attendace/:month', AttendanceController.getAttendanceForMonth); // Route to save Upad data
