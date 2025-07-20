@@ -34,9 +34,7 @@ const SalaryController = {
         let halfDayCount = 0;
         let fullDayCount = 0;
         let upadDates = [];
-
-        const employeeType = employee.employeeType;
-        const dailyRate = employeeType === 'laborer' ? 450 : 550;
+        const dailyRate = employee.dailySalary;
 
         for (const record of employeeAttendance) {
           for (const rec of record.attendanceRecords) {

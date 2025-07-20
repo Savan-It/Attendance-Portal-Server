@@ -12,8 +12,8 @@ const EmployeeController = {
 
   async saveEmployee (req, res) {
     try {
-      const { name, employeeType /* other fields */ } = req.body;
-      const newEmployee = new Employee({ name, employeeType /* other fields */ });
+      const { name, employeeType, dailySalary } = req.body;
+      const newEmployee = new Employee({ name, employeeType, dailySalary });
       await newEmployee.save();
       res.status(201).json({ message: 'Employee added successfully' });
     } catch (error) {
@@ -24,10 +24,10 @@ const EmployeeController = {
   async updateEmployee(req, res) {
     try {
       const { id } = req.params;
-      const { name, employeeType } = req.body;
+      const { name, employeeType, dailySalary } = req.body;
       const updated = await Employee.findByIdAndUpdate(
         id,
-        { name, employeeType },
+        { name, employeeType, dailySalary },
         { new: true }
       );
       if (!updated) return res.status(404).json({ message: 'Employee not found' });
