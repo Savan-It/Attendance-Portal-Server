@@ -70,8 +70,8 @@ const AttendanceController = {
   async saveAttendanceForDate(req, res) {
     try {
       const date = req.params.date;
-      const attendanceData = req.body; // Assuming attendance data is sent in the request body
-      // Check if attendance data for the specified date already exists
+      const attendanceData = req.body;
+      
       let existingAttendance = await Attendance.findOne({ date });
 
       if (!existingAttendance) {

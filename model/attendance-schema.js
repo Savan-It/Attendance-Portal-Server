@@ -6,9 +6,11 @@ const attendanceSchema = new mongoose.Schema({
     {
       employee: { type: String, required: true },
       status: { type: String, enum: ['Present', 'Absent', 'Half'], required: true },
+      site: { type: String },
     },
   ],
 });
+
 
 const Attendance = mongoose.model('Attendance', attendanceSchema);
 

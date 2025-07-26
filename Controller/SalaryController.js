@@ -12,6 +12,7 @@ const SalaryController = {
       const startDate = new Date(year, startMonth - 1, 1);
       const endDate = new Date(year, startMonth, 0);
 
+      // Fetch attendance records in the given month
       const attendanceData = await Attendance.find({
         date: { $gte: startDate, $lte: endDate },
       });
@@ -20,23 +21,11 @@ const SalaryController = {
       let salaryReport = [];
 
       for (const employee of employees) {
-        const employeeAttendance = attendanceData.filter((record) =>
-          record.attendanceRecords.some((rec) => rec.employee === employee._id.toString())
-        );
-
-        const upadData = await Upad.find({
-          date: { $gte: startDate, $lte: endDate },
-          employeeId: employee._id,
-        });
-
-        let totalSalary = 0;
-        let presentDay = 0;
-        let halfDayCount = 0;
         let fullDayCount = 0;
-        let upadDates = [];
-        const dailyRate = employee.dailySalary;
+        let halfDayCount = 0;
 
-        for (const record of employeeAttendance) {
+        // Calculate attendance
+        for (const record of attendanceData) {
           for (const rec of record.attendanceRecords) {
             if (rec.employee === employee._id.toString()) {
               if (rec.status === 'Present') {
@@ -48,14 +37,20 @@ const SalaryController = {
           }
         }
 
-        presentDay = fullDayCount + halfDayCount * 0.5;
-        totalSalary = (fullDayCount * dailyRate) + (halfDayCount * (dailyRate / 2));
+        const presentDay = fullDayCount + halfDayCount * 0.5;
+        const totalSalary = (fullDayCount * employee.dailySalary) + (halfDayCount * (employee.dailySalary / 2));
+
+        // Get upad records
+        const upadData = await Upad.find({
+          date: { $gte: startDate, $lte: endDate },
+          employeeId: employee._id,
+        });
 
         let totalUpadAmount = 0;
-        for (const upad of upadData) {
-          totalUpadAmount += upad.amount;
-          upadDates.push(upad.date);
-        }
+        const upadDates = upadData.map(u => {
+          totalUpadAmount += u.amount;
+          return u.date;
+        });
 
         salaryReport.push({
           employeeName: employee.name,
